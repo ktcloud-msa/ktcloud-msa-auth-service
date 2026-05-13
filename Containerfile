@@ -15,7 +15,7 @@ RUN ./gradlew dependencies --no-daemon
 
 COPY . .
 
-RUN ./gradlew :inventory-service:bootJar -x test --no-daemon
+RUN ./gradlew :auth-service:bootJar -x test --no-daemon
 
 FROM eclipse-temurin:23-jre
 WORKDIR /app
@@ -23,7 +23,7 @@ WORKDIR /app
 RUN useradd -ms /bin/bash springuser
 USER springuser
 
-COPY --from=build /app/inventory-service/build/libs/inventory-service.jar app.jar
+COPY --from=build /app/auth-service/build/libs/auth-service.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=staging", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "app.jar"]
 
